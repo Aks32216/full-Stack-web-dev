@@ -1,0 +1,7 @@
+hello from file3
+
+i am learning async coding
+
+i love to learn javascript
+
+it is a very interesting language

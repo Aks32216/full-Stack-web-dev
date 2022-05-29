@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .one,.two,.three{
+            background-color: lightgreen;
+            border: 2px solid blue;
+            margin: 1rem 1rem;
+        }
+        .one{
+            /* vh and vw are relative to browser screen */
+            width: 50vw;
+            height: 40vh;
+        }
+        .two{
+            /* rem is relative to html tag font size */
+            /* 1rem->16px */
+            height: 8rem;
+            width: 15rem;
+        }
+        .child{
+            /* percentage is relative to its parent */
+            background-color: lightblue;
+            margin: 1rem 1rem;
+            height: 30%;
+            width: 40%;
+        }
+        .three{
+            height:8rem;
+            width: 15rem;
+        }
+    </style>
+
+</head>
+<body>
+    <!-- px is a absolute unit -->
+    <!-- vh,vw,rem, percentage are relative units -->
+    <div class="one">hello from div1</div>
+    <div class="two">
+        hello from div2
+        <div class="child">hello from child</div>
+    </div>
+    <div class="three">
+        hello from div3
+    </div>
+</body>
+</html>

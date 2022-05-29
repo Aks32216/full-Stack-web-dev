@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        background-color: lightgreen;
+    }
+    h1{
+        /* type of font */
+        font-family: sans-serif;
+        color: white;
+        text-align: center;
+    }
+    /* by default whenever height is applied to any element this is the scenario */
+    /* visible height = height+padding(top+bottom)+border(top+bottom) */
+    /* visible width = widht+padding(left+right)+border(left+right) */
+    .one{
+        border: 2px solid black;
+        height: 4rem;
+        width: 4rem;
+        background-color: lightsalmon;
+        margin-bottom: 1rem;
+        padding: 1rem;
+    }
+    /* height and width by use = visible height */
+    /* all pading and border are adjusted in same thing */
+    .border-box{
+        box-sizing: border-box;
+    }
+    .withnothing{
+        padding: 0px;
+        border: 0px;
+    }
+</style>
+<body>
+    <h1>Hello box sizing</h1>
+    <div class="one">1</div>
+    <div class="one border-box">1</div>
+    <div class="one withnothing">1</div>
+</body>
+</html>
