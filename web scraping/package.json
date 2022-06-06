@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "chalk": "^5.0.1",
     "jsdom": "^19.0.0",
     "request": "^2.88.2"
   }
