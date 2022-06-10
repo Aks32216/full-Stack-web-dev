@@ -1,4 +1,4 @@
-// get the data from the url and print the name of highest wicket taker and his wicket
+// get the data from the url and print the age and date of birth of all players
 let fs=require("fs");
 let request=require("request");
 let jsdom=require("jsdom");
