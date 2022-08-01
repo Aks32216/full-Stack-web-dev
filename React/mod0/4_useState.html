@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <!-- react ui changing algorithm -->
+     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+     <!-- using react change the original web page -->
+     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+     <!-- converts your JSX code into js code internally -->
+     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/babel">
+        
+        function Counter(){
+
+            // hooks are react inbuilt function that monitors any change in ui and displays accordingly
+            // useState is one of hooks of react
+            // hooks always provide a variable which is used to represent state value
+            // along with variable a function is provided which can be used to change
+            // the state of the variable
+            // initial value 0 is provided to useState
+            let [count,setCount]=React.useState(0);
+
+            function incrementCounter(){
+                // only this function can be used to change the value of state varible
+                // count + 1 will not work
+                setCount(count+1);
+            }
+
+            function decrementCounter(){
+                setCount(count-1);
+            }
+
+            return (
+                <div>
+                    <h1>Counter App</h1>
+                    <h2>Current Counter value is {count}</h2>
+                    <button onClick={incrementCounter}>+</button>
+                    <button onClick={decrementCounter}>-</button>
+                </div>
+            )
+        }
+
+        // renders App function output into app element
+        ReactDOM.render(<Counter></Counter>,document.getElementById("app"));
+    </script>
+</body>
+</html>

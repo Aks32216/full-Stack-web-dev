@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- react ui changing algorithm -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <!-- using react change the original web page -->
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <!-- converts your JSX code into js code internally -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="App">
+
+    </div>
+
+    <script type="text/babel">
+
+        function Li(props){
+            return (<li>{props.task}</li>)
+        }
+
+        function App(){
+
+            let [value,setValue]=React.useState("");
+            let [tasks,setTask]=React.useState([]);
+            
+            function changeValue(event){
+                let inpValue=event.target.value;
+                setValue(inpValue);
+            }
+
+            function changeTask(){
+                let newTask=[...tasks];
+                if(value==""){
+                    alert("Enter a Task");
+                    return;
+                }
+                newTask.push(value);
+                setTask(newTask);
+                setValue("");
+            }
+
+            return (
+                <div>
+                    <h2>To Do App</h2>
+                    <input value={value} onChange={changeValue}/>
+                    <button onClick={changeTask}>Add</button>
+                    <h2>Tasks</h2>
+                    <ul>
+                       {tasks.map((taskElem)=>{
+                            return (<Li task={taskElem}></Li>)
+                       })} 
+                    </ul>
+                </div>
+            )
+        }
+
+        ReactDOM.render(<App/>,document.getElementById("App"));
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- react ui changing algorithm -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <!-- using react change the original web page -->
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <!-- converts your JSX code into js code internally -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="App">
+
+    </div>
+
+    <script type="text/babel">
+
+        function Counter(props){
+            let [count,setCount]=React.useState(0);
+            
+            function incrementCounter(){
+                setCount(count+1);
+            }
+
+            function decrementCounter(){
+                setCount(count-1);
+            }
+
+            return (
+                <div>
+                    <h1>Counter {props.id}</h1>
+                    <h2>Counter value is {count}</h2>
+                    <button onClick={incrementCounter}>+</button>
+                    <button onClick={decrementCounter}>-</button>
+                </div>
+            )
+        }
+
+        function App(){
+            return (
+                <div>
+                    <Counter id={1}/>
+                    <Counter id={2}/>
+                    <Counter id={3}/>
+                    <Counter id={4}/>
+                    <Counter id={5}/>
+                </div>
+            )
+        }
+
+        ReactDOM.render(<App/>,document.getElementById("App"));
+    </script>
+</body>
+</html>

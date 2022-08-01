@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <!-- react ui changing algorithm -->
+     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+     <!-- using react change the original web page -->
+     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+     <!-- converts your JSX code into js code internally -->
+     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/babel">
+        // lets suppose you want to use js variable inside a component
+        let count=0;
+        // to use js varibale {} brackets and inside it variable name is used
+        // receiving the attributes used by a particular component
+        function Hello(props){
+            count++;
+            // now these attributes can be accesed with object variable
+            return (
+                <h1>Hello World {count} {props.name} has age {props.age}</h1>
+            )
+        }
+
+        // function returning HTML elements are called components
+        // one function can be used to return multiple react components
+        // Now just like normal HTML elements react components can have attributes as well
+        // these attributes are stored in form of key value pairs in form of objects
+        // these attributes are passed to function in form of an object and the values can be used just like normal
+        // object variable
+        function App(){
+            return (
+                <div>
+                    <Hello name="Amish" age="22"></Hello>
+                    <Hello name="Ashish" age="28"></Hello>
+                    <Hello name="Ritesh" age="26"></Hello>
+                    <Hello name="Suraj" age="28"></Hello>
+                    <Hello name="Rashmi" age="21"></Hello>
+                </div>
+            )
+        }
+        // renders App function output into app element
+        ReactDOM.render(<App></App>,document.getElementById("app"));
+    </script>
+</body>
+</html>

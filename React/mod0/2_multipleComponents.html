@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <!-- react ui changing algorithm -->
+     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+     <!-- using react change the original web page -->
+     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+     <!-- converts your JSX code into js code internally -->
+     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/babel">
+        // lets suppose you want to use js variable inside a component
+        let count=0;
+        // to use js varibale {} brackets and inside it variable name is used
+        function Hello(){
+            count++;
+            return (
+                <h1>Hello World {count}</h1>
+            )
+        }
+
+        // function returning HTML elements are called components
+        // one function can be used to return multiple react components
+        function App(){
+            return (
+                <div>
+                    <Hello></Hello>
+                    <Hello></Hello>
+                    <Hello></Hello>
+                    <Hello></Hello>
+                    <Hello></Hello>
+                </div>
+            )
+        }
+        // renders App function output into app element
+        ReactDOM.render(<App></App>,document.getElementById("app"));
+    </script>
+</body>
+</html>
