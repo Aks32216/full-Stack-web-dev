@@ -2,7 +2,7 @@ let initialState={
     count: 10
 }
 
-function CounterReducer(state=initialState,action){
+function CounterReducer1(state=initialState,action){
     switch(action.type){
         case "increment":
             return {count:state.count+1};
@@ -13,4 +13,4 @@ function CounterReducer(state=initialState,action){
     }
 }
 
-export default CounterReducer;
+export default CounterReducer1;

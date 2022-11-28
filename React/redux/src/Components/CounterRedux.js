@@ -17,7 +17,7 @@ function CounterRedux(props){
 // provides all the states of store and provides it to component
 
 function mapStateToProps(state){
-    return state;
+    return state.count;
 }
 
 // it provides dispathc -> which will call the reducer function
