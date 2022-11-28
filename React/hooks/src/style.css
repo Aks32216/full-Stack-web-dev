@@ -1,0 +1,16 @@
+.counterButton{
+    margin: 5rem;
+}
+
+.button{
+    padding: 1rem;
+    font-size: 120%;
+    color: blueviolet;
+}
+
+.number{
+    margin-left: 2rem;
+    margin-right: 2rem;
+    font-size: 130%;
+    color: green;
+}

@@ -29,4 +29,4 @@ console.log(address);
 
 console.log("----------------------------------------------------");
 // know extension of file
-console.log(path.extname());
+console.log(path.extname(address));
