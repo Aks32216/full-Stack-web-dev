@@ -1,8 +1,9 @@
 import React from 'react';
-import { connect} from 'react-redux';
+import {connect} from 'react-redux';
 
 function CounterRedux(props){
-    console.log(props);
+
+    // console.log(props);
     let count=props.count;
     return (
         <>
@@ -20,10 +21,9 @@ function mapStateToProps(state){
     return state.count;
 }
 
-// it provides dispathc -> which will call the reducer function
-
+// it provides dispathc -> which will call the reducer function 
 function mapDispatchToProps(dispatch){
-    return {
+    return {        
         increment: ()=>{
             dispatch({type:"increment"})
         },

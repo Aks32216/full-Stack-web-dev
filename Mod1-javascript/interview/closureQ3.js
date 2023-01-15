@@ -1,6 +1,6 @@
 function printArrFn(){
     let arr=[];
-    for(var i=0;i<3;++i)
+    for(let i=0;i<3;++i)
     {
         function printI(){
             console.log(i);

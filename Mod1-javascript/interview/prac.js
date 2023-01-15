@@ -93,7 +93,7 @@
 //         console.log(a); // 30
 //     }
 //     a++;
-//     console.log(a); 31
+//     console.log(a); 
 // }
 
 // console.log(a); // 10
@@ -153,13 +153,13 @@
 // const a=10;
 // console.log(a);
 
-const a=10;
-console.log("157",a);
-{
-    let a=20;
-    console.log("159",a);
-    {
-        const a=29;
-        console.log("162",a);
-    }
-}
+// const a=10;
+// console.log("157",a);
+// {
+//     let a=20;
+//     console.log("159",a);
+//     {
+//         const a=29;
+//         console.log("162",a);
+//     }
+// }
