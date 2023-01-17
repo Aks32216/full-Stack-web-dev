@@ -9,15 +9,19 @@ const server=http.createServer((req,res)=>{
     switch(url){
         case '/':
             path+='/index.html';
+            res.statusCode=200;
             break;
         case '/about':
             path+='/about.html';
+            res.statusCode=200;
             break;
         case '/feed':
             path+='feed.html';
+            res.statusCode=200;
             break;
         default:
             path+='/error.html';
+            res.statusCode=404;
             break;
     }
     fs.readFile(path,(err,data)=>{
