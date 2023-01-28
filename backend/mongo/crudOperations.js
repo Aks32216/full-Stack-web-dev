@@ -2,6 +2,7 @@ const express=require('express');
 const app=express();
 const dotenv=require('dotenv');
 const mongoose=require('mongoose');
+const emailValidator=require('email-validator');
 dotenv.config({path:'../.env'});
 const db_link=process.env.DB_LINK;
 app.use(express.json());
@@ -37,29 +38,44 @@ async function getUsers(req,res){
     
 async function postUser(req,res){
     console.log(req.body); 
-    let {name,email,password,confirmPassword}=req.body;
-    let newUser={name,email,password,confirmPassword};
-    let data=await userModel.create(newUser);
-    res.json({
-        message:"message received successfully",
-        data:data
-    });
-};
-
-function patchUser(req,res){
-    console.log(req.body); 
-    let dataToBeUpdated=req.body;
-    for(key in dataToBeUpdated){
-        users[key]=dataToBeUpdated[key];
+    try{
+        let {name,email,password,confirmPassword}=req.body;
+        let newUser={name,email,password,confirmPassword};
+        let data=await userModel.create(newUser);
+        res.json({
+            message:"message received successfully",
+            data:data
+        });
     }
-    res.json({
-        message:"data updated successfully",
-        user:req.body
-    });
+    catch(err){
+        res.json({
+            err:err.message
+        })
+    }
+    
 };
 
-function deleteUser(req,res){
-    users={};
+async function patchUser(req,res){
+    console.log(req.body); 
+    try{
+        let dataToBeUpdated=req.body;
+        let data=await userModel.findOneAndUpdate({email:"riteshjha@gmail.com"},dataToBeUpdated);
+        res.json({
+            message:"data updated successfully",
+            user:req.body
+        });
+    }
+    catch(err){
+        req.json({err:err.message})
+    }
+    
+};
+
+async function deleteUser(req,res){
+    console.log(req.body);
+    // let data=await userModel.deleteOne({email:"amish12435@gmail.com"});
+    let data=await userModel.findOneAndRemove({email:"riteshjha@gmail.com"});
+    console.log(data);
     res.json({
         msg:"deleted data successfully"
     });
@@ -68,6 +84,8 @@ function deleteUser(req,res){
 app.listen(5000,()=>{
     console.log("server started at port 5000");
 })
+
+
 
 
 
@@ -80,29 +98,52 @@ mongoose.connect(db_link)
         console.log(err);
     });
 
-    const userSchema=mongoose.Schema({
-        name:{
-            type:String,
-            required:true
-        },
-        email:{
-            type:String,
-            required:true,
-            unique:true
-        },
-        password:{
-            type:String,
-            required:true,
-            minLength:7
-        },
-        confirmPassword:{
-            type:String,
-            required:true,
-            minLength:7
+const userSchema=mongoose.Schema({
+    name:{
+        type:String,
+        required:true
+    },
+    email:{
+        type:String,
+        required:true,
+        unique:true,
+        validate:function (){
+            return emailValidator.validate(this.email);
         }
-    });
+    },
+    password:{
+        type:String,
+        required:true,
+        minLength:7
+    },
+    confirmPassword:{
+        type:String,
+        required:true,
+        minLength:7,
+        validate: function (){
+            return this.confirmPassword==this.password;
+        }
+    }
+});
+
+// hooks are functions that run before and after the main objective function
+// userSchema.pre('save',()=>{
+//     console.log("pre save hooks");
+// })
+
+// userSchema.post('save',()=>{
+//     console.log("post save hooks");
+// })
+
+// userSchema.pre('remove',()=>{
+//     console.log("pre remove hooks");
+// })
+
+// userSchema.post('remove',()=>{
+//     console.log("post remove hooks");
+// })
     
-    // converting schema to model
-    const userModel=mongoose.model('userModel',userSchema);
-    
+// converting schema to model
+const userModel=mongoose.model('userModel',userSchema);
+
 
