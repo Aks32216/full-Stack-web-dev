@@ -1,6 +1,8 @@
 const express=require('express');
 const app=express();
+const cookieParser=require('cookie-parser');
 app.use(express.json());
+app.use(cookieParser());
 const {userModel}=require('./models/userModel');
 let users=[];
 
@@ -14,6 +16,12 @@ userRouter.route('/')
     .post(postUser)
     .patch(patchUser)
     .delete(deleteUser);
+
+userRouter.route('/setCookies')
+    .get(setCookies);
+
+userRouter.route('/getCookies')
+    .get(getCookies);
 
 // authRouter.route('/signup')
 //     .get(getSignup)
@@ -30,7 +38,7 @@ async function getUsers(req,res){
         msg:"users send succesfully",
         allUsers
     })
-};
+}; 
     
 async function postUser(req,res){
     console.log(req.body); 
@@ -76,6 +84,18 @@ async function deleteUser(req,res){
         msg:"deleted data successfully"
     });
 };
+
+function setCookies(req,res){
+    res.cookie('isLoggedIn','True',{maxAge:10000,secure:true});
+    res.cookie('password',1234564,{secure:true});
+    res.send("cookie has been set");
+}
+
+function getCookies(req,res){
+    let cookies=req.cookies;
+    console.log(cookies);
+    res.send(cookies);
+}
 
 app.listen(5000,()=>{
     console.log("server started at port 5000");
