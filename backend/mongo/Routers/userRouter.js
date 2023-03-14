@@ -1,15 +1,9 @@
 const express=require('express');
-const app=express();
-const cookieParser=require('cookie-parser');
-app.use(express.json());
-app.use(cookieParser());
-const {userModel}=require('./models/userModel');
-let users=[];
+const {userModel}=require('../models/userModel');
+
 
 const userRouter=express.Router();
-const authRouter=express.Router();
-app.use('/user',userRouter);
-app.use('/signup',authRouter);
+
 
 userRouter.route('/')
     .get(middleware1,getUsers)
@@ -22,9 +16,6 @@ userRouter.route('/setCookies')
 
 userRouter.route('/getCookies')
     .get(getCookies);
-
-// authRouter.route('/signup')
-//     .get(getSignup)
 
 function middleware1(req,res,next){
     console.log("middleware 1 called");
@@ -97,11 +88,4 @@ function getCookies(req,res){
     res.send(cookies);
 }
 
-app.listen(5000,()=>{
-    console.log("server started at port 5000");
-})
-
-
-
-
-
+module.exports=userRouter;
