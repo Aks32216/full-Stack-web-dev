@@ -44,7 +44,8 @@ async function loginUser(req,res){
                   })
                 }
                 if (response) {
-                  res.json({
+                    res.cookie('isLoggedIn',true);
+                    res.json({
                     msg:"user logged in"
                   })
                 } else {

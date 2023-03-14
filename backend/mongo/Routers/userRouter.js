@@ -6,7 +6,7 @@ const userRouter=express.Router();
 
 
 userRouter.route('/')
-    .get(middleware1,getUsers)
+    .get(protectRoute,getUsers)
     .post(postUser)
     .patch(patchUser)
     .delete(deleteUser);
@@ -17,13 +17,21 @@ userRouter.route('/setCookies')
 userRouter.route('/getCookies')
     .get(getCookies);
 
-function middleware1(req,res,next){
-    console.log("middleware 1 called");
-    next();
+// here cookies can be used to check if the user is logged in or not
+// let isLoggedIn=false;
+
+function protectRoute(req,res,next){
+    let isLoggedIn=req.cookies.isLoggedIn;
+    if(isLoggedIn){
+        next();
+    }else{
+        return res.json({
+            msg:"Operation not allowed"
+        });
+    }
 };
 
 async function getUsers(req,res){
-    console.log(req.query);
     let allUsers=await userModel.find();
     res.json({
         msg:"users send succesfully",
