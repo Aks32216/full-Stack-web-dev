@@ -1,4 +1,4 @@
-// document;
+ // document;
 // *************************read*********************
 // query selector only returns the first matching entry 
 let elem = document.querySelector(".next_h1");
