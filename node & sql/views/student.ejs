@@ -10,15 +10,19 @@
     <h1>Student List</h1>
     <table border=5>
         <tr>
+            <th>ID</th>
             <th>Roll No.</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Action</th>
         </tr>
         <% for( let index = 0; index < students.length; index++ ) { %>
             <tr>
+                <th><%= students[index].id %></th>
                 <th><%= students[index].rollno %></th>
                 <th><%= students[index].name %></th>
                 <th><%= students[index].email %></th>
+                <th><a href="/deleteStudent?id=<%= students[index].id %>">Delete</a></th>
             </tr>
         <% } %>
     </table>

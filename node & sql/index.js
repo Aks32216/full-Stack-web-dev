@@ -32,6 +32,16 @@ app.get('/students',(req,res)=>{
     })
 })
 
+app.get('/deleteStudent',(req,res)=>{
+    let id=req.query.id;
+    let sql='DELETE FROM students WHERE id=?';
+    connection.query(sql,[id],(err,result)=>{
+        if(err)
+            throw err;
+        res.redirect('/students');
+    })
+})
+
 app.listen(3000,()=>{
     console.log(`connected to port ${3000}`);
 })
