@@ -42,6 +42,34 @@ app.get('/deleteStudent',(req,res)=>{
     })
 })
 
+app.get('/search-student',(req,res)=>{
+    let sql='Select * from students';
+    connection.query(sql,(err,result)=>{
+        if(err)
+            throw err;
+        res.render('search-student',{students:result})
+    })
+})
+
+app.post('/search-student',(req,res)=>{
+    let {name,email,rollno}=req.body;
+    if(name==='undefined')
+        name='';
+    if(email==='undefined')
+        email='';
+    if(rollno==='undefined')
+        rollno='';
+    console.log(name,email,rollno);
+    let sql="select * from students where name like '%"+name+"%' and email like '%"+email+"%' and rollno like '%"+rollno+"%';"; 
+    connection.query(sql,(err,result)=>{
+        if(err)
+            throw err;
+        res.render('search-student',{students:result})
+    })
+})
+
+
+
 app.listen(3000,()=>{
     console.log(`connected to port ${3000}`);
 })
