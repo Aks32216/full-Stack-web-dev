@@ -7,23 +7,28 @@ const app=express();
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended:true}));
+app.set('view engine','ejs');
 
 app.get('/',(req,res)=>{
-    res.sendFile(path.join(__dirname+'/register.html'));
+    res.render('register');
 });
 
 app.post('/',(req,res)=>{
-    let {name,email,number}=req.body;
-    connection.connect((err)=>{
+    let {id,name,email,number}=req.body;
+    let sql="INSERT INTO students(id,rollno,name,email) values(?,?,?,?)";
+    connection.query(sql,[id,number,name,email],(err,result)=>{
         if(err)
             throw err;
-        let sql="INSERT INTO students(id,rollno,name,email) values(22,?,?,?)";
-        connection.query(sql,[number,name,email],(err,result)=>{
-            if(err)
-                throw err;
-            res.send("student Registered successfully"+result.insertId);
-        })
+        res.redirect('/students');
+    })
+})
 
+app.get('/students',(req,res)=>{
+    let sql='Select * from students';
+    connection.query(sql,(err,result)=>{
+        if(err)
+            throw err;
+        res.render('student',{students:result})
     })
 })
 
