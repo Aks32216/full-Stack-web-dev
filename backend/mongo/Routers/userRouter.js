@@ -1,9 +1,7 @@
 const express=require('express');
 const {userModel}=require('../models/userModel');
 
-
 const userRouter=express.Router();
-
 
 userRouter.route('/')
     .get(protectRoute,getUsers)

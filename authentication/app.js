@@ -1,22 +1,44 @@
 const express=require('express');
+const connection=require('./config');
 const app=express();
 const jwt=require('jsonwebtoken');
+const dotenv=require("dotenv").config();
+const nodemailer=require('nodemailer');
 
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.set('view engine','ejs');
 
-let user={
-    id:"1222",
-    email:"john@gmail.com",
-    password:"kjsakldgjalskdjglkasjdlkgjsadlkjgkljsadlkgj"
-}
 
 const JWT_SECRET='some super secret...';
 
+function sendMail(to,subject,message){
+    let transporter=nodemailer.createTransport({
+        service:'gmail',
+        auth:{
+            user:process.env.USER_NAME,
+            pass:process.env.USER_PASSWORD
+        }
+    });
+
+    let mailOptions={
+        to:to,
+        subject:subject,
+        text:message
+    };
+
+    transporter.sendMail(mailOptions,(err,success)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log("Email send successfully");
+        }
+    });
+}
 
 app.get('/',(req,res)=>{
-    res.end("Hello world");
+    res.render('home');
 })
 
 app.get('/forgot-password',(req,res,next)=>{
@@ -25,38 +47,55 @@ app.get('/forgot-password',(req,res,next)=>{
 
 app.post('/forgot-password',(req,res,next)=>{
     let email=req.body.email;
-    // first check if this mail exist in your database and then
-    // create a unique link to send it to the user mail
-    if(email!==user.email){
-        res.send('User is not registered');
-        return;
-    }
-    // user exit and create a one time link valid for a certain period
-    const secret=JWT_SECRET+user.password;
-    const payload={
-        email:user.email,
-        id:user.id
-    }
-    const token=jwt.sign(payload,secret,{expiresIn:'15m'});
-    const link=`http://localhost:3000/reset-password/${user.id}/${token}`;
-    console.log(link);
-    // use a gmail client to send this link to the registered email
-    res.send('password link has been sent to your email....');
+    let sql='select * from emp where email=?';
+    connection.query(sql,[email],(err,result)=>{
+        if(err){
+            throw err;
+        }
+        if(result.length==0){
+            res.send("No such user exist")
+            return;
+        }
+        // user exit and create a one time link valid for a certain period
+
+        let email=result[0].email;
+        let id=result[0].id;
+        let name=result[0].name;
+        let dbPassword=result[0].password;
+        const secret=JWT_SECRET+dbPassword;
+
+        const payload={
+            email,
+            id
+        };
+
+        const token=jwt.sign(payload,secret,{expiresIn:'15m'});
+
+        const link=`http://localhost:3000/reset-password/${id}/${token}`;
+        sendMail(email,"Reset Password for medilab",`Hello ${name},\nthis is your One Time link to reset password for your account at medilab.\n\n\n${link}\n\nIgnore this message if you have not generated this link.\n\nThis Link Expires in 15 min.`)
+        res.send('password link has been sent to your email....');
+    })
 })
 
 app.get('/reset-password/:id/:token',(req,res,next)=>{
-    const {id,token}=req.params;
-    // verify the id from database
-    if(id!==user.id)
-    {
-        res.send("not a valid id")
-        return;
-    }
-    // valid id exist
-    const secret=JWT_SECRET+user.password;
     try {
-        const payload=jwt.verify(token,secret);
-        res.render('reset-password',{email:user.email});
+        const {id,token}=req.params;
+        let sql='select * from emp where id=?';
+        connection.query(sql,[id],(err,result)=>{
+            if(err){
+                throw err;
+            }
+            // check if id exist or not
+            if(result.length==0){
+                res.send("You don't have acces to this page");
+                return;
+            }
+            let email=result[0].email;
+            let dbPassword=result[0].password;
+            const secret=JWT_SECRET+dbPassword;
+            const payload=jwt.verify(token,secret);
+            res.render('reset-password',{email:email});
+        });
     } catch (error) {
         console.log(error.message);
         res.send(error.message);
@@ -64,22 +103,32 @@ app.get('/reset-password/:id/:token',(req,res,next)=>{
 })
 
 app.post('/reset-password/:id/:token',(req,res,next)=>{
-    const {id,token}=req.params;
-    const {password,confirmPassword}=req.body;
-    if(id!==user.id)
-    {
-        res.send("not a valid id")
-        return;
-    }
-    const secret=JWT_SECRET+user.password;
     try {
-        const payload=jwt.verify(token,secret);
-        // validate password and passwordconfirm should match
-        // we can simply find the user with payload email and id
-        // and finalyy update with the new password
-        // hash the password and save to the database
-        user.password=password;
-        res.send(user);
+        const {id,token}=req.params;
+        const {password,confirmPassword}=req.body;
+        console.log(password);
+        let sql='select * from emp where id=?';
+        connection.query(sql,[id],(err,result)=>{
+            if(err){
+                throw err;
+            }
+            // check if id exist or not
+            if(result.length==0){
+                res.send("You don't have acces to this page");
+                return;
+            }
+            let email=result[0].email;
+            let dbPassword=result[0].password;
+            const secret=JWT_SECRET+dbPassword;
+            const payload=jwt.verify(token,secret);
+            let sqlUpdate='update emp set password=? where email=?';
+            connection.query(sqlUpdate,[password,email],(err,result)=>{
+                if(err){
+                    throw err;
+                }
+                res.redirect('/');
+            })
+        });
     } catch (error) {
         console.log(error.message);
         res.send(error.message);
