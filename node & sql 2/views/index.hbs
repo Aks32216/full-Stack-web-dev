@@ -1,15 +1,27 @@
-<form action="/" method="post" enctype="multipart/form-data">
-    <h3>Upload Profile Image</h3>
-    <input type="file" name="sampleFile" accept="image/*">
-    <input type="submit" value="Submit">
-</form>
+<div class="form">
 
+
+    <form class="inner" action="/" method="post" enctype="multipart/form-data">
+        <h3>Upload Profile Image</h3>
+        <input type="file" name="sampleFile" accept="image/*"><br>
+        <input type="submit" value="Submit">
+    </form>
+
+</div>
 
 <div class="card">
-    <img class="card_image" src="/img/default.jpg" alt="">
-    <h1 class="card_title">Amish Kumar Singh</h1>
-    <div class="card_job">Web Developer</div>
+    {{#each result}}
+
+    {{#if this.profile_image}}
+        <img class="card_image" src="{{this.profile_image}}" alt="Profile Image">
+    {{else}}
+        <img class="card_image" src="/img/default.png" alt="Profile Image">
+    {{/if}}
+    <h1 class="card_title">{{this.name}}</h1>
+    <div class="card_job">{{this.job_title}}</div>
     <p class="card_about">
-        Hi I am amish kumar singh. Currently pursuing b-tech from techno india university. i love competative programming and web development. I love to read books and travelling.
+        {{this.description}}
     </p>
+    <button type="button" class="btn btn-primary">View Profile</button>
+    {{/each}}
 </div>
